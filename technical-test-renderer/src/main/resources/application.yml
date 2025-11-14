@@ -10,4 +10,3 @@ webclient:
     technical:
       url: http://localhost:8086
       flight-path: /flight
-

@@ -68,6 +68,24 @@
         }
     </style>
 </head>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const priceCells = document.querySelectorAll('th.price');
+
+    priceCells.forEach(cell => {
+        const rawPrice = cell.dataset.price;
+        if(rawPrice != null && rawPrice !== '') {
+            const formatted = Number(rawPrice).toLocaleString('fr-FR', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }) + ' €';
+            cell.textContent = formatted;
+        } else {
+            cell.textContent = 'N/A';
+        }
+    });
+});
+</script>
 <body>
 <header>
     <h1>Recherche de Vols</h1>
@@ -89,7 +107,7 @@
             <tr th:each="flight : ${flights}">
                 <th th:text="${flight.origin.name}"></th>
                 <th th:text="${flight.destination.name}"></th>
-                <th th:text="${flight.price}"></th>
+                <th class="price" th:attr="data-price=${flight.price}"></th>
                 <th th:text="${flight.image}"></th>
             </tr>
         </table>
