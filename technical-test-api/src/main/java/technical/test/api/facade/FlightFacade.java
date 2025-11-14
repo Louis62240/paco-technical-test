@@ -35,15 +35,17 @@ public class FlightFacade {
                             flightRepresentation.setDestination(this.airportMapper.convert(destination));
                             return Mono.just(flightRepresentation);
                         }));
-        if ("price".equalsIgnoreCase(sortBy)) {
-            flights.sort(Comparator.comparingDouble(FlightRepresentation::getPrice));
-        } else if ("location".equalsIgnoreCase(sortBy)) {
-            flights.sort(Comparator.comparing(f -> f.getOrigin().getIata()));
-        } 
-        return flights.skip(page * PAGE_SIZE).take(PAGE_SIZE);
 
-        
+        // Appliquer le tri sur le Flux retourné
+        if ("price".equalsIgnoreCase(sortBy)) {
+            flights = flights.sort(Comparator.comparingDouble(FlightRepresentation::getPrice));
+        } else if ("location".equalsIgnoreCase(sortBy)) {
+            flights = flights.sort(Comparator.comparing(f -> f.getOrigin().getIata()));
+        }
+
+        return flights.skip(page * PAGE_SIZE).take(PAGE_SIZE);
     }
+
     
     public Mono<FlightRepresentation> createFlight(FlightRepresentation representation) {
         return flightService.createFlight(flightMapper.convert(representation))
