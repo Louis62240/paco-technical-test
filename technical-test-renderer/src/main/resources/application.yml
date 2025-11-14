@@ -8,8 +8,6 @@ server:
 webclient:
   api:
     technical:
-      port: 8086
-      url: http://localhost:${webclient.api.technical.port}
-      base-path: /
+      url: http://localhost:8086
       flight-path: /flight
 

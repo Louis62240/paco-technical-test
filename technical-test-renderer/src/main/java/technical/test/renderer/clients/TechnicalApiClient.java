@@ -21,11 +21,26 @@ public class TechnicalApiClient {
         this.webClient = webClientBuilder.build();
     }
 
-    public Flux<FlightViewModel> getFlights() {
+    public Flux<FlightViewModel> getFlights(int page, int size, String sortBy) {
         return webClient
                 .get()
-                .uri(technicalApiProperties.getUrl() + technicalApiProperties.getFlightPath())
+                .uri(uriBuilder -> {
+                    var builder = uriBuilder
+                            .scheme("http")
+                            .host("localhost")
+                            .port(8086)
+                            .path("/flight")
+                            .queryParam("page", page)
+                            .queryParam("size", size);
+
+                    if (sortBy != null && !sortBy.isBlank()) {
+                        builder.queryParam("sortBy", sortBy);
+                    }
+
+                    return builder.build();
+                })
                 .retrieve()
                 .bodyToFlux(FlightViewModel.class);
     }
+
 }

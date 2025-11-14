@@ -13,7 +13,7 @@ public class FlightService {
         this.technicalApiClient = technicalApiClient;
     }
 
-    public Flux<FlightViewModel> getFlights() {
-        return this.technicalApiClient.getFlights();
+    public Flux<FlightViewModel> getFlights(int page, int size, String sortBy) {
+        return this.technicalApiClient.getFlights(page, size, sortBy);
     }
 }

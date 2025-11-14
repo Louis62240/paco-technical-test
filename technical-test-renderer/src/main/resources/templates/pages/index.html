@@ -90,9 +90,25 @@
                 <th th:text="${flight.origin.name}"></th>
                 <th th:text="${flight.destination.name}"></th>
                 <th th:text="${flight.price}"></th>
-                <th th:text="${flight.photo}"></th>
+                <th th:text="${flight.image}"></th>
             </tr>
         </table>
+         <div class="pagination">
+        <form method="get" th:action="@{/}">
+            <input type="hidden" name="sortBy" th:value="${sortBy}" />
+
+            <button type="submit" name="page" th:value="${currentPage - 1}"
+                    th:disabled="${currentPage == 0}">
+                ⬅ Précédent
+            </button>
+
+            <span>Page <strong th:text="${currentPage + 1}"></strong></span>
+
+            <button type="submit" name="page" th:value="${currentPage + 1}">
+                Suivant ➡
+            </button>
+        </form>
+    </div>
     </ul>
 </section>
 

@@ -14,7 +14,7 @@ public class FlightFacade {
         this.flightService = flightService;
     }
 
-    public Flux<FlightViewModel> getFlights() {
-        return this.flightService.getFlights();
+    public Flux<FlightViewModel> getFlights(int page, int size, String sortBy) {
+        return this.flightService.getFlights(page, size, sortBy);
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import reactor.core.publisher.Mono;
 import technical.test.renderer.facades.FlightFacade;
 
@@ -20,8 +22,21 @@ public class TechnicalController {
     private FlightFacade flightFacade;
 
     @GetMapping
-    public Mono<String> getMarketPlaceReturnCouponPage(final Model model) {
-        model.addAttribute("flights", this.flightFacade.getFlights());
-        return Mono.just("pages/index");
+    public Mono<String> getMarketPlaceReturnCouponPage(
+            final Model model,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size,
+            @RequestParam(required = false) String sortBy) {
+
+        return this.flightFacade.getFlights(page, size, sortBy)
+                .collectList()
+                .map(flights -> {
+                    model.addAttribute("flights", flights);
+                    model.addAttribute("currentPage", page);
+                    model.addAttribute("size", size);
+                    model.addAttribute("sortBy", sortBy);
+                    return "pages/index";
+                });
     }
+
 }
