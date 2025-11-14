@@ -32,4 +32,21 @@ public class FlightFacade {
                             return Mono.just(flightRepresentation);
                         }));
     }
+    
+    public Mono<FlightRepresentation> createFlight(FlightRepresentation representation) {
+        return flightService.createFlight(flightMapper.convert(representation))
+                .flatMap(savedRecord -> airportService.findByIataCode(savedRecord.getOrigin())
+                        .zipWith(airportService.findByIataCode(savedRecord.getDestination()))
+                        .map(tuple -> {
+                            AirportRecord origin = tuple.getT1();
+                            AirportRecord destination = tuple.getT2();
+
+                            FlightRepresentation response = flightMapper.convert(savedRecord);
+                            response.setOrigin(airportMapper.convert(origin));
+                            response.setDestination(airportMapper.convert(destination));
+                            return response;
+                        })
+                );
+    }
+    
 }
