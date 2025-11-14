@@ -1,6 +1,9 @@
 package technical.test.api.facade;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.Comparator;
+
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -19,8 +22,8 @@ public class FlightFacade {
     private final FlightMapper flightMapper;
     private final AirportMapper airportMapper;
 
-    public Flux<FlightRepresentation> getAllFlights() {
-        return flightService.getAllFlights()
+    public Flux<FlightRepresentation> getAllFlights(String sortBy) {
+        Flux<FlightRepresentation> flights = flightService.getAllFlights()
                 .flatMap(flightRecord -> airportService.findByIataCode(flightRecord.getOrigin())
                         .zipWith(airportService.findByIataCode(flightRecord.getDestination()))
                         .flatMap(tuple -> {
@@ -31,6 +34,13 @@ public class FlightFacade {
                             flightRepresentation.setDestination(this.airportMapper.convert(destination));
                             return Mono.just(flightRepresentation);
                         }));
+        if ("price".equalsIgnoreCase(sortBy)) {
+            return flights.sort(Comparator.comparingDouble(FlightRepresentation::getPrice));
+        } else if ("location".equalsIgnoreCase(sortBy)) {
+            return flights.sort(Comparator.comparing(f -> f.getOrigin().getIata()));
+        } else {
+            return flights;
+        }
     }
     
     public Mono<FlightRepresentation> createFlight(FlightRepresentation representation) {
