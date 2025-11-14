@@ -23,9 +23,11 @@ public class FlightEndpoint {
 
     @GetMapping
     public Flux<FlightRepresentation> getAllFlights(
-            @RequestParam(value = "sortBy", required = false) String sortBy) {
-        return flightFacade.getAllFlights(sortBy);
+            @RequestParam(value = "sortBy", required = false) String sortBy,
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page) {
+        return flightFacade.getAllFlights(sortBy, page);
     }
+
     
     @PostMapping
     public Mono<FlightRepresentation> createFlight(@RequestBody FlightRepresentation flight) {

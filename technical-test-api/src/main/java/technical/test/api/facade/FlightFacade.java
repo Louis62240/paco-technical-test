@@ -21,8 +21,9 @@ public class FlightFacade {
     private final AirportService airportService;
     private final FlightMapper flightMapper;
     private final AirportMapper airportMapper;
+    private static final int PAGE_SIZE = 6;
 
-    public Flux<FlightRepresentation> getAllFlights(String sortBy) {
+    public Flux<FlightRepresentation> getAllFlights(String sortBy, int page) {
         Flux<FlightRepresentation> flights = flightService.getAllFlights()
                 .flatMap(flightRecord -> airportService.findByIataCode(flightRecord.getOrigin())
                         .zipWith(airportService.findByIataCode(flightRecord.getDestination()))
@@ -35,12 +36,13 @@ public class FlightFacade {
                             return Mono.just(flightRepresentation);
                         }));
         if ("price".equalsIgnoreCase(sortBy)) {
-            return flights.sort(Comparator.comparingDouble(FlightRepresentation::getPrice));
+            flights.sort(Comparator.comparingDouble(FlightRepresentation::getPrice));
         } else if ("location".equalsIgnoreCase(sortBy)) {
-            return flights.sort(Comparator.comparing(f -> f.getOrigin().getIata()));
-        } else {
-            return flights;
-        }
+            flights.sort(Comparator.comparing(f -> f.getOrigin().getIata()));
+        } 
+        return flights.skip(page * PAGE_SIZE).take(PAGE_SIZE);
+
+        
     }
     
     public Mono<FlightRepresentation> createFlight(FlightRepresentation representation) {
