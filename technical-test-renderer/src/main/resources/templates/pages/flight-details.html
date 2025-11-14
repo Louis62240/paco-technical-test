@@ -32,7 +32,8 @@
         </tr>
         <tr>
             <th>Date</th>
-            <td th:text="${flight.date}">Date du vol</td>
+           <p>Départ : <span th:text="${flight.departure}"></span></p>
+			<p>Arrivée : <span th:text="${flight.arrival}"></span></p>
         </tr>
         <tr>
             <th>Photo</th>

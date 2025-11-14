@@ -42,5 +42,20 @@ public class TechnicalApiClient {
                 .retrieve()
                 .bodyToFlux(FlightViewModel.class);
     }
+    
+    public Mono<FlightViewModel> getFlightById(String id) {
+        return webClient
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .scheme("http")
+                        .host("localhost")
+                        .port(8086)
+                        .path("/flight/{id}")
+                        .build(id))
+                .retrieve()
+                .bodyToMono(FlightViewModel.class)
+                .doOnError(error -> log.error("Erreur lors de la récupération du vol avec id {}", id, error));
+    }
+
 
 }

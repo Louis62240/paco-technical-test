@@ -2,6 +2,7 @@ package technical.test.renderer.services;
 
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import technical.test.renderer.clients.TechnicalApiClient;
 import technical.test.renderer.viewmodels.FlightViewModel;
 
@@ -16,4 +17,9 @@ public class FlightService {
     public Flux<FlightViewModel> getFlights(int page, int size, String sortBy) {
         return this.technicalApiClient.getFlights(page, size, sortBy);
     }
+    
+    public Mono<FlightViewModel> getFlightById(String id) {
+        return this.technicalApiClient.getFlightById(id);
+    }
+
 }

@@ -119,12 +119,20 @@ document.addEventListener("DOMContentLoaded", function() {
                 <th scope="col">Arrivée à</th>
                 <th scope="col">Prix</th>
                 <th scope="col">Photo</th>
+                <th scope="col">Détails</th> 
             </tr>
             <tr th:each="flight : ${flights}">
-                <th th:text="${flight.origin.name}"></th>
+               <th>
+        			<a th:href="@{/flight/{id}(id=${flight.id})}" th:text="${flight.origin.name}"></a>
+    			</th>
                 <th th:text="${flight.destination.name}"></th>
                 <th class="price" th:attr="data-price=${flight.price}"></th>
                 <th><img th:src="${flight.image}" alt="Photo du vol" style="width:100px; height:auto;" loading="lazy"/></th>
+                <th>
+            	<a th:href="@{/flight/{id}(id=${flight.id})}">
+                	<button type="button">Voir Détail</button>
+            	</a>
+        </th>
             </tr>
         </table>
          <div class="pagination">
