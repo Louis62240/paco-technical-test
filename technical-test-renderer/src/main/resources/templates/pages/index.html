@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 <th th:text="${flight.origin.name}"></th>
                 <th th:text="${flight.destination.name}"></th>
                 <th class="price" th:attr="data-price=${flight.price}"></th>
-                <th th:text="${flight.image}"></th>
+                <th><img th:src="${flight.image}" alt="Photo du vol" style="width:100px; height:auto;" loading="lazy"/></th>
             </tr>
         </table>
          <div class="pagination">
