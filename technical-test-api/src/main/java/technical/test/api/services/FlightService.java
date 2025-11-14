@@ -1,6 +1,9 @@
 package technical.test.api.services;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -19,4 +22,10 @@ public class FlightService {
     public Mono<FlightRecord> createFlight(FlightRecord record) {
         return flightRepository.save(record);
     }
+    
+    public Mono<FlightRecord> getFlightById(UUID id) {
+        return flightRepository.findById(id);
+    }
+
+
 }

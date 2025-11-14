@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Détails du vol</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f0f7fc; color: #333; }
+        header, footer { background: #3498db; color: #fff; text-align: center; padding: 15px; }
+        section { padding: 30px; }
+        table { border-collapse: collapse; width: 50%; margin: 20px auto; }
+        th, td { border: 1px solid #bbb; padding: 10px; text-align: left; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Détails du vol</h1>
+</header>
+<section>
+    <table>
+        <tr>
+            <th>Départ de</th>
+            <td th:text="${flight.origin.name}">Aéroport de départ</td>
+        </tr>
+        <tr>
+            <th>Arrivée à</th>
+            <td th:text="${flight.destination.name}">Aéroport d'arrivée</td>
+        </tr>
+        <tr>
+            <th>Prix</th>
+            <td th:text="${#numbers.formatDecimal(flight.price, 1, 'POINT', 2, 'NONE')} + ' €'">Prix</td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td th:text="${flight.date}">Date du vol</td>
+        </tr>
+        <tr>
+            <th>Photo</th>
+            <td><img th:src="${flight.image}" alt="Photo du vol" style="width:200px; height:auto;" /></td>
+        </tr>
+    </table>
+
+    <div style="text-align:center; margin-top:20px;">
+        <a th:href="@{/?page=${page}(sortBy=${sortBy})}">⬅ Retour à la recherche</a>
+    </div>
+</section>
+<footer>
+    <p>&copy; 2025 Recherche de Vols. Tous droits réservés.</p>
+</footer>
+</body>
+</html>

@@ -3,6 +3,7 @@ package technical.test.api.facade;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Comparator;
+import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
@@ -62,5 +63,23 @@ public class FlightFacade {
                         })
                 );
     }
+    
+    public Mono<FlightRepresentation> getFlightById(UUID id) {
+        return flightService.getFlightById(id)
+                .flatMap(flightRecord -> airportService.findByIataCode(flightRecord.getOrigin())
+                        .zipWith(airportService.findByIataCode(flightRecord.getDestination()))
+                        .map(tuple -> {
+                            AirportRecord origin = tuple.getT1();
+                            AirportRecord destination = tuple.getT2();
+
+                            FlightRepresentation response = flightMapper.convert(flightRecord);
+                            response.setOrigin(airportMapper.convert(origin));
+                            response.setDestination(airportMapper.convert(destination));
+                            return response;
+                        })
+                );
+    }
+
+
     
 }
