@@ -1,70 +1,57 @@
 # Test Technique FullStack - TravelQuest
 
-Salut et bienvenue ici. Auchan te propose de consacrer un peu de temps pour nous exposer tes talents.
+**Avancement du projet :**  
+- Backend : 🟩🟩🟩🟩🟩 100%  
+- Frontend : ⬜⬜⬜⬜⬜ 0%  
+- Exercice global : 🟩🟩🟩⬜⬜ 50%
 
-Tu trouveras ici le squelette d'un projet Spring Reactive (JAVA) / MongoDB (technical-test-api) et la partie front sera en Thymeleaf (technical-test-renderer).
+---
 
-TravelQuest est une application de réservation de voyages qui offre une expérience utilisateur fluide. Les utilisateurs peuvent rechercher, sélectionner et réserver des voyages tout en bénéficiant de fonctionnalités avancées telles que des filtres de recherche personnalisés et une présentation claire des détails du voyage.
+## Présentation
 
-# Partie Back
-## Partie 1: Chasse aux Bugs
+Salut ! Je travaille sur le test technique TravelQuest proposé par Auchan.  
+L'objectif est de construire une application de réservation de voyages avec une partie **backend Spring Reactive / MongoDB** et une partie **frontend Thymeleaf**.
 
-1. **Impossible de lancer l'API**
-   - **Description :** Un développeur frauduleux a cassé l'API sans aucun scrupule.
-   - **Tâche :** Trouver le problème et le réparer.
+Dans ce projet, les utilisateurs peuvent rechercher, trier et réserver des vols, tout en bénéficiant d’une expérience fluide et claire.
 
-2. **Impossible de récupérer les résultats de nos vols**
-   - **Description :** Un ami du premier développeur frauduleux n'a pas testé son code, nous n'arrivons à récupérer les informations de vol
-   - **Tâche :** Réparer la récupération des vols
+---
 
-## Partie 2: Évolutions Éclair
+## Backend ✅ (100%)
 
-1. **Créer des vols**
-   - **Description :** Permettre de créer des vols dans un espace d'administration (pas besoin de la sécuriser)
-   - **Tâche :** Avoir un endpoint qui permet l'insertion des vols en base
+J’ai travaillé sur toutes les fonctionnalités backend du projet.  
 
-2. **Rajouter des filtres**
-   - **Description :** Permettre à l'utilisateur de trier les résultats par prix ou par localisation.
-   - **Tâche :** Ajouter la notion de filtre.
+### Partie 1 : Chasse aux Bugs
+- [x] Corrigé le problème qui empêchait le lancement de l’API
+- [x] Corrigé le problème de récupération des vols
 
-3. **Bonus : Rajouter la pagination**
-   - **Description :** Permettre de paginer les résultats.
-   - **Tâche :** On aimerait avoir uniquement 6 résultats par page afin d'optimiser les performances de notre application.
-   
-# Partie Front
+### Partie 2 : Évolutions Éclair
+- [x] Création de vols → j’ai ajouté un endpoint POST `/flight` pour insérer des vols en base
+- [x] Filtres → j’ai ajouté la possibilité de trier les résultats par **prix** ou **localisation**
+- [x] Bonus : Pagination → j’ai limité le nombre de résultats à 6 par page pour optimiser les performances
 
-## Partie 1: Chasse aux Bugs
+---
 
-1. **Problème d'affichage des tarifs :**
-    - **Description :** Certains tarifs ne s'affichent pas correctement sur la page de réservation.
-    - **Tâche :** Corrigez le problème d'affichage pour assurer la clarté et la précision des tarifs.
+## Frontend ⬜ (0%)
 
-2. **Lenteur de chargement des images :**
-    - **Description :** Les images des destinations mettent trop de temps à charger, affectant l'expérience utilisateur.
-    - **Tâche :** Optimisez le chargement des images pour améliorer les temps de réponse de la page.
+Je n’ai pas encore travaillé sur le frontend, voici ce qu’il reste à faire :  
 
-## Partie 2: Évolutions Éclair
+### Partie 1 : Chasse aux Bugs
+- [ ] Corriger l’affichage des tarifs
+- [ ] Optimiser le chargement des images
 
-1. **Page d'administration pour créer des vols :**
-   - **Description :** Utilise le endpoint précédemment créé pour permettre de créer des vols dans une page front.
-   - **Tâche :** Pas besoin de la sécuriser, ni de créer un compte admin pour y accéder.
-   - 
-2. **Filtrage des résultats de recherche :**
-    - **Description :** Ajoutez une fonctionnalité de filtrage basique pour permettre aux utilisateurs de trier les résultats par prix, par localisation et/ou par dates.
-    - **Tâche :** Implémentez un système de filtres pour permettre à l'utilisateur de retrouver facilement son vol
+### Partie 2 : Évolutions Éclair
+- [ ] Page d’administration pour créer des vols
+- [ ] Filtrage des résultats de recherche (tri par prix, localisation, dates)
+- [ ] Filtrage avancé (conserver les filtres après sélection)
+- [ ] Bonus : Pagination côté frontend
 
-3. **Filtrage avancé des résultats de recherche :**
-    - **Description :** Permettre la sélection d'un vol et, lors du retour à la page de recherche des vols, conserver le filtre précédemment appliqué.
-    - **Tâche :** Tu peux très bien le faire en QueryParams ou en Javascript, à toi de voir.
+---
 
-4. **Bonus : Rajouter la pagination**
-   - **Description :** Permettre de paginer les résultats.
-   - **Tâche :** On aimerait avoir uniquement 6 résultats par page afin d'optimiser les performances de notre application.
-   
-## Consignes
-- N'hésite pas à fouiller sur Google, StackOverflow, la documentation Spring pour trouver les réponses à tes questions.
-- Sois prêt à discuter de tes choix et de ton approche lors de l'entretien.
-- Have fun !
+## Notes sur le backend
 
+- L’API `/flight` supporte maintenant :
+  - **Tri** par prix ou localisation (`?sortBy=price` ou `?sortBy=location`)
+  - **Pagination** (6 résultats par page) avec `?page=0`, `?page=1`, etc.
+- Tout le backend est fonctionnel et prêt à être connecté au frontend.
 
-## Si tu rencontres un problème n'hésite pas à créer une issue sur le repo que tu as fork et on répondra aussi vite que possible !
+---
