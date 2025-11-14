@@ -96,7 +96,23 @@ document.addEventListener("DOMContentLoaded", function() {
     <h2>Bienvenue sur notre site de recherche de vols</h2>
     <p>Commencez votre aventure en trouvant les meilleurs vols disponibles.</p>
     <!-- Ajoutez ici le formulaire de recherche de vols ou d'autres éléments pertinents -->
+    <form method="get" th:action="@{/}">
+    <label for="sortBy">Trier par :</label>
+    <select name="sortBy" id="sortBy">
+        <option value="">--Choisir--</option>
+        <option value="price" th:selected="${sortBy=='price'}">Prix</option>
+        <option value="location" th:selected="${sortBy=='location'}">Localisation</option>
+        <option value="date" th:selected="${sortBy=='date'}">Date</option>
+    </select>
+
+    <!-- On force la page à 0 quand on filtre -->
+    <input type="hidden" name="page" value="0"/>
+
+    <button type="submit">Filtrer</button>
+</form>
+
     <ul>
+    
         <table>
             <tr>
                 <th scope="col">Départ de</th>
