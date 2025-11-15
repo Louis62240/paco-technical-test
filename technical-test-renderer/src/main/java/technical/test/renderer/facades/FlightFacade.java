@@ -22,4 +22,9 @@ public class FlightFacade {
     public Mono<FlightViewModel> getFlightById(String id) {
         return flightService.getFlightById(id);
     }
+    
+    public Mono<Void> createFlight(FlightViewModel flight) {
+        return flightService.createFlight(flight);
+    }
+
 }

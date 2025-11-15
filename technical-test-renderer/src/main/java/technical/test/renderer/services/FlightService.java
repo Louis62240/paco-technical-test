@@ -22,4 +22,8 @@ public class FlightService {
         return this.technicalApiClient.getFlightById(id);
     }
 
+    public Mono<Void> createFlight(FlightViewModel flight) {
+        return this.technicalApiClient.createFlight(flight);
+    }
+
 }
