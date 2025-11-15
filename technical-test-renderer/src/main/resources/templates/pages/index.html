@@ -205,8 +205,13 @@ footer {
 <header>Recherche de Vols</header>
 
 <section>
-<h2>Trouvez les meilleurs vols</h2>
+<h2 >Trouvez les meilleurs vols</h2>
 <p>Comparez facilement et partez au meilleur prix.</p>
+<a th:href="@{/flight/create}">
+    <button type="button" style="background:#2ecc71; margin-top:15px;">
+        ➕ Créer un vol
+    </button>
+</a>
 
 <form method="get" th:action="@{/}">
     <select name="sortBy" id="sortBy">

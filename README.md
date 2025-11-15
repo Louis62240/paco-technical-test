@@ -1,57 +1,40 @@
-# Test Technique FullStack - TravelQuest
-
-**Avancement du projet :**  
-- Backend : 🟩🟩🟩🟩🟩 100%  
-- Frontend : ⬜⬜⬜⬜⬜ 0%  
-- Exercice global : 🟩🟩🟩⬜⬜ 50%
-
----
+# TravelQuest - Application de réservation de vols
 
 ## Présentation
 
-Salut ! Je travaille sur le test technique TravelQuest proposé par Auchan.  
-L'objectif est de construire une application de réservation de voyages avec une partie **backend Spring Reactive / MongoDB** et une partie **frontend Thymeleaf**.
-
-Dans ce projet, les utilisateurs peuvent rechercher, trier et réserver des vols, tout en bénéficiant d’une expérience fluide et claire.
+TravelQuest est une application web fullstack permettant de rechercher, consulter et créer des vols.  
+Le projet utilise un **backend Spring Reactive** exposant une API REST et un **frontend Thymeleaf** pour l’interface utilisateur.
 
 ---
 
-## Backend ✅ (100%)
+## Backend
 
-J’ai travaillé sur toutes les fonctionnalités backend du projet.  
-
-### Partie 1 : Chasse aux Bugs
-- [x] Corrigé le problème qui empêchait le lancement de l’API
-- [x] Corrigé le problème de récupération des vols
-
-### Partie 2 : Évolutions Éclair
-- [x] Création de vols → j’ai ajouté un endpoint POST `/flight` pour insérer des vols en base
-- [x] Filtres → j’ai ajouté la possibilité de trier les résultats par **prix** ou **localisation**
-- [x] Bonus : Pagination → j’ai limité le nombre de résultats à 6 par page pour optimiser les performances
+- API accessible sur : `http://localhost:8086`
+- Endpoints principaux :
+  - **GET /flight** : liste tous les vols, avec pagination (`?page=0`) et tri (`?sortBy=price` ou `?sortBy=location`)
+  - **GET /flight/{id}** : récupère un vol par son UUID
+  - **POST /flight** : crée un nouveau vol. L’UUID est généré automatiquement si non fourni
+- CORS activé pour autoriser le frontend sur un autre port (ex. `localhost:8087`)
 
 ---
 
-## Frontend ⬜ (0%)
+## Frontend
 
-Je n’ai pas encore travaillé sur le frontend, voici ce qu’il reste à faire :  
+- Application accessible sur : `http://localhost:8087`
+- Pages disponibles :
+  - Liste des vols avec carte responsive et formatage des prix et dates
+  - Formulaire de création de vol accessible sur `/flight/create`
 
-### Partie 1 : Chasse aux Bugs
-- [ ] Corriger l’affichage des tarifs
-- [ ] Optimiser le chargement des images
+### Formulaire de création
 
-### Partie 2 : Évolutions Éclair
-- [ ] Page d’administration pour créer des vols
-- [ ] Filtrage des résultats de recherche (tri par prix, localisation, dates)
-- [ ] Filtrage avancé (conserver les filtres après sélection)
-- [ ] Bonus : Pagination côté frontend
+Le formulaire envoie un JSON au backend avec cette structure :
 
----
-
-## Notes sur le backend
-
-- L’API `/flight` supporte maintenant :
-  - **Tri** par prix ou localisation (`?sortBy=price` ou `?sortBy=location`)
-  - **Pagination** (6 résultats par page) avec `?page=0`, `?page=1`, etc.
-- Tout le backend est fonctionnel et prêt à être connecté au frontend.
-
----
+```json
+{
+  "departure": "2023-12-09T17:00:00",
+  "arrival": "2023-12-10T05:00:00",
+  "price": 125.5,
+  "origin": { "iata": "LAX", "name": "Los Angeles Airport", "country": "US" },
+  "destination": { "iata": "PEK", "name": "Beijing Capital Airport", "country": "China" },
+  "image": "https://example.com/image.jpg"
+}
