@@ -1,52 +1,166 @@
 <!DOCTYPE html>
-<html lang="fr"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Détails du vol</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #f0f7fc; color: #333; }
-        header, footer { background: #3498db; color: #fff; text-align: center; padding: 15px; }
-        section { padding: 30px; }
-        table { border-collapse: collapse; width: 50%; margin: 20px auto; }
-        th, td { border: 1px solid #bbb; padding: 10px; text-align: left; }
-    </style>
+<meta charset="UTF-8">
+<title>Détails du vol</title>
+<style>
+body {
+    font-family: "Inter", sans-serif;
+    background: #f0f7fc;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header, footer {
+    background: #3498db;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+section {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.flight-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 25px rgba(0,0,0,0.08);
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 20px;
+}
+
+.flight-img img {
+    width: 250px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.flight-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.flight-details h2 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+    font-size: 1.5rem;
+}
+
+.flight-info {
+    margin-bottom: 15px;
+}
+
+.flight-info p {
+    margin: 6px 0;
+    font-size: 1rem;
+}
+
+.price {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #3498db;
+    margin: 10px 0;
+}
+
+.back-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 15px;
+    background: #3498db;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.back-button:hover {
+    background: #2d89c7;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+    .flight-card {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .flight-img img {
+        width: 100%;
+        height: auto;
+    }
+    
+    .flight-details {
+        text-align: center;
+    }
+}
+</style>
 </head>
 <body>
 <header>
     <h1>Détails du vol</h1>
 </header>
-<section>
-    <table>
-        <tr>
-            <th>Départ de</th>
-            <td th:text="${flight.origin.name}">Aéroport de départ</td>
-        </tr>
-        <tr>
-            <th>Arrivée à</th>
-            <td th:text="${flight.destination.name}">Aéroport d'arrivée</td>
-        </tr>
-        <tr>
-            <th>Prix</th>
-            <td th:text="${#numbers.formatDecimal(flight.price, 1, 'POINT', 2, 'NONE')} + ' €'">Prix</td>
-        </tr>
-        <tr>
-            <th>Date</th>
-           <p>Départ : <span th:text="${flight.departure}"></span></p>
-			<p>Arrivée : <span th:text="${flight.arrival}"></span></p>
-        </tr>
-        <tr>
-            <th>Photo</th>
-            <td><img th:src="${flight.image}" alt="Photo du vol" style="width:200px; height:auto;" /></td>
-        </tr>
-    </table>
 
-    <div style="text-align:center; margin-top:20px;">
-        <a th:href="@{/?page=${page}(sortBy=${sortBy})}">⬅ Retour à la recherche</a>
+<section>
+    <div class="flight-card">
+        <!-- Image du vol -->
+        <div class="flight-img">
+            <img th:src="${flight.image}" 
+                 onerror="this.src='https://ulysse.com/news/wp-content/uploads/2024/12/vol-le-plus-court-au-monde.jpg'" 
+                 alt="Photo du vol" />
+        </div>
+
+        <!-- Détails -->
+        <div class="flight-details">
+            <h2 th:text="${flight.origin.name} + ' → ' + ${flight.destination.name}">Départ → Arrivée</h2>
+            
+            <div class="flight-info">
+                <p><strong>Départ :</strong> <span id="departure" th:text="${flight.departure}">Date et heure départ</span></p>
+                <p><strong>Arrivée :</strong> <span id="arrival" th:text="${flight.arrival}">Date et heure arrivée</span></p>
+            </div>
+
+            <div class="price" id="price" th:attr="data-price=${flight.price}">Prix</div>
+
+            <a class="back-button" href="javascript:history.back()">⬅ Retour à la recherche</a>
+        </div>
     </div>
 </section>
+
 <footer>
-    <p>&copy; 2025 Recherche de Vols. Tous droits réservés.</p>
+    <p>&copy; 2025 - Recherche de Vols - Hanquiez Louis</p>
 </footer>
+
+<script>
+// Formate le prix
+document.addEventListener("DOMContentLoaded", () => {
+    const priceEl = document.getElementById("price");
+    const rawPrice = priceEl.dataset.price;
+    if (rawPrice) {
+        priceEl.textContent = Number(rawPrice).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+    }
+
+    // Formate les dates
+    const formatDate = (isoString) => {
+        if (!isoString) return "N/A";
+        const d = new Date(isoString);
+        return d.toLocaleDateString("fr-FR", { day: "2-digit", month: "short", year: "numeric" }) + 
+               " à " + d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+    };
+
+    const depEl = document.getElementById("departure");
+    const arrEl = document.getElementById("arrival");
+    depEl.textContent = formatDate(depEl.textContent);
+    arrEl.textContent = formatDate(arrEl.textContent);
+});
+</script>
 </body>
 </html>
