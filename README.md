@@ -1,35 +1,31 @@
-# TravelQuest - Application de réservation de vols
+# TravelQuest – Application de réservation de vols ✈️
 
-## Présentation
+TravelQuest est une application fullstack permettant de rechercher, trier, consulter et créer des vols.  
+Elle est composée de deux modules :
 
-TravelQuest est une application web fullstack permettant de rechercher, consulter et créer des vols.  
-Le projet utilise un **backend Spring Reactive** exposant une API REST et un **frontend Thymeleaf** pour l’interface utilisateur.
-
----
-
-## Backend
-
-- API accessible sur : `http://localhost:8086`
-- Endpoints principaux :
-  - **GET /flight** : liste tous les vols, avec pagination (`?page=0`) et tri (`?sortBy=price` ou `?sortBy=location`)
-  - **GET /flight/{id}** : récupère un vol par son UUID
-  - **POST /flight** : crée un nouveau vol. L’UUID est généré automatiquement si non fourni
-- CORS activé pour autoriser le frontend sur un autre port (ex. `localhost:8087`)
+- **Backend** → API REST réactive (Spring WebFlux)
+- **Frontend** → Interface utilisateur avec Thymeleaf
 
 ---
 
-## Frontend
+## 🚀 Lancer le projet
 
-- Application accessible sur : `http://localhost:8087`
-- Pages disponibles :
-  - Liste des vols avec carte responsive et formatage des prix et dates
-  - Formulaire de création de vol accessible sur `/flight/create`
+### 1. Backend
+```bash
+cd technical-test-api
+mvn spring-boot:run
+```
+API disponible sur : http://localhost:8086
 
-### Formulaire de création
+### Backend – Endpoints
+| Méthode | URL            | Description                                      |
+| ------- | -------------- | ------------------------------------------------ |
+| GET     | `/flight`      | Liste paginée + tri (`?page=0`, `?sortBy=price`) |
+| GET     | `/flight/{id}` | Récupère un vol par UUID                         |
+| POST    | `/flight`      | Crée un vol (UUID généré automatiquement)        |
 
-Le formulaire envoie un JSON au backend avec cette structure :
-
-```json
+### Exemple JSON pour créer un vol
+```bash
 {
   "departure": "2023-12-09T17:00:00",
   "arrival": "2023-12-10T05:00:00",
@@ -38,3 +34,46 @@ Le formulaire envoie un JSON au backend avec cette structure :
   "destination": { "iata": "PEK", "name": "Beijing Capital Airport", "country": "China" },
   "image": "https://example.com/image.jpg"
 }
+```
+
+### 2. Frontend
+```bash
+cd technical-test-renderer
+mvn spring-boot:run
+```
+Application accessible sur : http://localhost:8087
+
+
+#### Fonctionnalités principales :
+- Liste des vols (responsive grid)
+- Tri : date, prix, localisation
+- Pagination
+- Formatage automatique des prix et dates
+- Page de détails d’un vol
+- Formulaire de création d’un vol
+- UI modernisée (CSS custom)
+
+#### Versions utilisées
+
+Les deux modules partagent les mêmes versions :
+- Java : 17
+- Spring Boot : 3.1.2
+- Lombok : 1.18.28
+- MapStruct : 1.5.5.Final
+- Lombok MapStruct Binding : 0.2.0
+- Reactor Test : 3.4.25
+- Testcontainers MongoDB : 1.18.3
+
+### Structure du projet
+```bash
+/
+├── technical-test-api/         # Backend WebFlux + MongoDB Reactive
+│   ├── src/main/java
+│   ├── src/main/resources
+│   └── pom.xml
+│
+└── technical-test-renderer/    # Frontend Thymeleaf
+    ├── src/main/java
+    ├── src/main/resources
+    └── pom.xml
+```
