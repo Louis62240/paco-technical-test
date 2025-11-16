@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
+<link rel="stylesheet" th:href="@{/css/main.css}" />
 <meta charset="UTF-8">
 <title>Détails du vol</title>
-<link rel="stylesheet" th:href="@{/css/main.css}" />
 </head>
 <body>
-<header>
-    <h1>Détails du vol</h1>
-</header>
+    <div th:replace="fragments/header :: header"></div>
+
 
 <section>
     <div class="flight-card">
@@ -30,14 +29,13 @@
 
             <div class="price" id="price" th:attr="data-price=${flight.price}">Prix</div>
 
-            <a class="back-button" href="javascript:history.back()">⬅ Retour à la recherche</a>
+            <a class="back-button" th:href="@{/ (sortBy=${sortBy})}">
+    		Retour à la recherche
+			</a>
         </div>
     </div>
 </section>
-
-<footer>
-    <p>&copy; 2025 - Recherche de Vols - Hanquiez Louis</p>
-</footer>
+    <div th:replace="fragments/footer :: footer"></div>
 
 <script>
 // Formate le prix

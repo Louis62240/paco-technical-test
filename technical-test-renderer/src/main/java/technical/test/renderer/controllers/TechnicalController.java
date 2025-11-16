@@ -42,13 +42,19 @@ public class TechnicalController {
                 });
     }
     @GetMapping("/flight/{id}")
-    public Mono<String> getFlightDetailPage(final Model model, @PathVariable String id) {
+    public Mono<String> getFlightDetailPage(
+            final Model model,
+            @PathVariable String id,
+            @RequestParam(required = false) String sortBy) {
+
         return flightFacade.getFlightById(id)
                 .map(flight -> {
                     model.addAttribute("flight", flight);
-                    return "pages/flight-details"; 
+                    model.addAttribute("sortBy", sortBy); 
+                    return "pages/flight-details";
                 });
     }
+
 
     @GetMapping("/flight/create")
     public String createFlightPage() {

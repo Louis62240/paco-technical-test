@@ -21,9 +21,26 @@
     <form id="sortForm" method="get" th:action="@{/}" class="sort-filters">
         <input type="hidden" name="sortBy" id="sortByInput" value="" />
 
-        <button type="button" data-sort="date" class="sort-btn active">Plus récents</button>
-        <button type="button" data-sort="price" class="sort-btn">Moins cher</button>
-        <button type="button" data-sort="location" class="sort-btn">Localisation</button>
+        <button type="button"
+        data-sort="date"
+        class="sort-btn"
+        th:classappend="${sortBy} == 'date' ? ' active' : ''">
+    	Plus récents
+		</button>
+
+		<button type="button"
+        data-sort="price"
+        class="sort-btn"
+        th:classappend="${sortBy} == 'price' ? ' active' : ''">
+    	Moins cher
+		</button>
+
+		<button type="button"
+        data-sort="location"
+        class="sort-btn"
+        th:classappend="${sortBy} == 'location' ? ' active' : ''">
+    	Localisation
+	</button>
     </form>
 </div>
 
@@ -46,7 +63,7 @@
                 </div>
                 <div class="date-price">
                     <div class="price" th:attr="data-price=${flight.price}"></div>
-                    <a th:href="@{/flight/{id}(id=${flight.id})}">
+                    <a th:href="@{/flight/{id}(id=${flight.id}, sortBy=${sortBy})}">
                         <button type="button">Voir</button>
                     </a>
                 </div>
