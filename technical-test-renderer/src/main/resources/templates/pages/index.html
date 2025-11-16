@@ -8,27 +8,26 @@
 <title>Recherche de Vols</title>
 </head>
 <body>
-<header>Recherche de Vols</header>
+    <div th:replace="fragments/header :: header"></div>
 
 <section>
-<h2 >Trouvez les meilleurs vols</h2>
-<p>Comparez facilement et partez au meilleur prix.</p>
-<a th:href="@{/flight/create}">
-    <button type="button" style="background:#2ecc71; margin-top:15px;">
-        ➕ Créer un vol
-    </button>
-</a>
 
-<form method="get" th:action="@{/}">
-    <select name="sortBy" id="sortBy">
-        <option value="">Trier par...</option>
-        <option value="price" th:selected="${sortBy=='price'}">Prix</option>
-        <option value="location" th:selected="${sortBy=='location'}">Localisation</option>
-        <option value="date" th:selected="${sortBy=='date'}">Date</option>
-    </select>
-    <input type="hidden" name="page" value="0" />
-    <button type="submit">Filtrer</button>
-</form>
+<div class="filters-container">
+    <div class="filters-left">
+        <h2>Trouvez les meilleurs vols</h2>
+        <p>Comparez facilement et partez au meilleur prix.</p>
+    </div>
+
+    <form id="sortForm" method="get" th:action="@{/}" class="sort-filters">
+        <input type="hidden" name="sortBy" id="sortByInput" value="" />
+
+        <button type="button" data-sort="date" class="sort-btn active">Plus récents</button>
+        <button type="button" data-sort="price" class="sort-btn">Moins cher</button>
+        <button type="button" data-sort="location" class="sort-btn">Localisation</button>
+    </form>
+</div>
+
+
 
 <div class="flights-grid">
     <div class="flight-card" th:each="flight : ${flights}">
@@ -73,15 +72,29 @@
 </div>
 </section>
 
-<footer>© 2023 Recherche de Vols</footer>
+    <div th:replace="fragments/footer :: footer"></div>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".price").forEach(cell => {
-        const raw = cell.dataset.price;
-        cell.textContent = raw ? Number(raw).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €" : "N/A";
+    const sortForm = document.getElementById("sortForm");
+    const sortInput = document.getElementById("sortByInput");
+    const buttons = document.querySelectorAll(".sort-btn");
+
+    buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            // Mettre la valeur dans l'input hidden
+            sortInput.value = btn.dataset.sort;
+
+            // Activer ce bouton et désactiver les autres
+            buttons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            // Soumettre le formulaire
+            sortForm.submit();
+        });
     });
 });
 </script>
+
 </body>
 </html>
